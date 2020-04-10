@@ -24,6 +24,10 @@ $ export FLASK_ENV=development
 #starts shell in production or deve depending on how FLASK_ENV is set.
 $ pipenv shell      
 
+# run flask
+
+$ flask run
+
 # installs packages into environment act like nmp install 
 # ex pipenv install pkgname where pkgname may equal flask etc
 $ pipenv install  *pkg name       
