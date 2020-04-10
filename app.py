@@ -1,13 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 import json
 import os.path
 
 app = Flask(__name__)
+app.secret_key = 'test'       #secret key to secure messaging from system to user v1.12
 
 
-#############################
+#############################################
 ##   ROUTES
-#############################
+##############################################
 
 ## Home route
 
@@ -15,7 +16,7 @@ app = Flask(__name__)
 def home():
     return render_template('home.html')
 
-## About route
+## your_url route
 
 @app.route('/your-url', methods=['GET', 'POST'])
 def your_url():
@@ -30,6 +31,7 @@ def your_url():
                 urls = json.load(urls_file)
                 #check if short code in urls file to stop overwriting
                 if request.form['code'] in urls.keys():
+                    flash('That short name has already been taken,  please select another name')
                     return redirect(url_for('home'))      #if key is there redirect back to home page
 
         urls[request.form['code']] = {'url': request.form['url']}  #save in dict

@@ -9,6 +9,12 @@
 
     <h1>URL Shortening Application</h1>
 
+<!-- Check for any messages from system usning Flash and JinJa -->
+
+    {% for message in get_flashed_messages() %}
+    <h2>{{  message }}</h2>
+    {% endfor %}
+
     <div>
       <form action="your-url" method="POST">
 
