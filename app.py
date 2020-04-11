@@ -11,13 +11,11 @@ app.secret_key = 'test'       #secret key to secure messaging from system to use
 ##############################################
 
 ## Home route
-
 @app.route('/')
 def home():
     return render_template('home.html')
 
 ## your_url route
-
 @app.route('/your-url', methods=['GET', 'POST'])
 def your_url():
     if request.method == 'POST':  
@@ -42,3 +40,16 @@ def your_url():
         return render_template('your_url.html', code=request.form['code'], url=request.form['url'])
     else:
         return redirect(url_for('home'))    #redirect to home using url_for if a arrived by GET 
+
+# Variable Route to return websites and files
+
+@app.route('/<string:code>')
+def redirect_to_site(code):    
+    if os.path.exists('urls.json'):
+        with open('urls.json') as urls_file:
+            urls = json.load(urls_file)
+            if code in urls.keys():
+                if 'url' in urls[code].keys():
+                    return redirect(urls[code]['url'])
+
+
