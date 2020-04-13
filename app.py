@@ -47,6 +47,7 @@ def your_url():
             f = request.files['file']
             full_name = request.form['code'] + secure_filename(f.filename)  #secure the file name
             f.save('/c/Users/GeneA/PythonProjects/url-short/' + full_name)   #add savee location
+            #f.save(full_name)
             urls[request.form['code']] = {'file': full_name}                #add to JSON
 
         with open('urls.json', 'w') as url_file:  # open and save to JSON file
