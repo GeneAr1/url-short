@@ -46,14 +46,14 @@ def your_url():
         else:
             f = request.files['file']
             full_name = request.form['code'] + secure_filename(f.filename)  #secure the file name
-            f.save('/c/Users/GeneA/PythonProjects/url-short/' + full_name)   #add savee location
-            #f.save(full_name)
+            #f.save('C:/Users/GeneA/PythonProjects/url-short/' + full_name)   #add savee location(root)
+            f.save('C:/Users/GeneA/PythonProjects/url-short/static/user_files/' + full_name) #to use static folder
             urls[request.form['code']] = {'file': full_name}                #add to JSON
 
         with open('urls.json', 'w') as url_file:  # open and save to JSON file
             json.dump(urls, url_file)
-
-        return render_template('your_url.html', code=request.form['code'], url=request.form['url'])
+        
+        return render_template('your_url.html', code=request.form['code'])
     else:
         return redirect(url_for('home'))    #redirect to home using url_for if a arrived by GET 
 
@@ -67,5 +67,8 @@ def redirect_to_site(code):
             if code in urls.keys():
                 if 'url' in urls[code].keys():
                     return redirect(urls[code]['url'])
+                else:
+                    #its a file serve it from the static folder
+                    return redirect(url_for('static', filename='user_files/' + urls[code]['file']))
 
 
