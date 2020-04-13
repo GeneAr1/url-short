@@ -47,5 +47,22 @@
 
     </div>
 
+
+    <!-- codes user has created -->
+    {% if codes %}
+
+    <h3>Codes you have created:</h3>
+    <ul>      
+
+      {% for code in codes %}
+      <a href="{{ url_for('redirect_to_site', code=code) }}">
+      <li> {{ code }}</li>
+      </a>
+      {% endfor %}
+
+    </ul>  
+
+    {% endif %}
+
   </body>
 </html>
