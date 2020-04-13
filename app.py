@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, abort
+from flask import Flask, render_template, request, redirect, url_for, flash, abort, session, jsonify
 import json
 import os.path
 from werkzeug.utils import secure_filename         #secure file name utility
@@ -15,7 +15,7 @@ app.secret_key = 'test1212121212'  # secret key to secure messaging from system 
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html', codes=session.keys())   #added codes >> session to display info on homepage
 
 ## your_url route
 
@@ -52,6 +52,7 @@ def your_url():
 
         with open('urls.json', 'w') as url_file:  # open and save to JSON file
             json.dump(urls, url_file)
+            session[request.form['code']] = True     #add cookie
         
         return render_template('your_url.html', code=request.form['code'])
     else:
@@ -78,6 +79,13 @@ def redirect_to_site(code):
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('page_not_found.html'), 404
+
+
+#create an API route for module
+
+@app.route('/api')
+def session_api():
+    return jsonify(list(session.keys()))
 
 
 
