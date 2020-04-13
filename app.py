@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, abort
 import json
 import os.path
 from werkzeug.utils import secure_filename         #secure file name utility
@@ -70,5 +70,14 @@ def redirect_to_site(code):
                 else:
                     #its a file serve it from the static folder
                     return redirect(url_for('static', filename='user_files/' + urls[code]['file']))
+
+    return abort(404)
+
+# Page not found route
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('page_not_found.html'), 404
+
 
 
